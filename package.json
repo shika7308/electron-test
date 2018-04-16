@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "electron": "^1.8.4",
-    "electron-builder": "^20.8.1"
+    "electron-builder": "^20.8.1",
+    "yarn": "^1.6.0"
   },
   "build": {
     "appId": "test appId",
@@ -47,8 +48,7 @@
     "mac": {
       "artifactName": "${name}-installer-${version}-${os}.${ext}"
     },
-    "win": {
-    },
+    "win": {},
     "nsis": {
       "artifactName": "${name}-installer-${version}-${os}.${ext}"
     },
