@@ -23,9 +23,7 @@ before_install:
   fi
 before_script:
 - git lfs pull
-- export REV_VERSION=$(git log --oneline | wc -l)
-- export APP_VERSION=1.0.$REV_VERSION
-- npm --allow-same-version --no-git-tag-version version $APP_VERSION
+- npm --allow-same-version --no-git-tag-version version 1.0.$(git log --oneline | wc -l)
 script:
 - |
   if [ "$TRAVIS_OS_NAME" == "linux" ]; then
