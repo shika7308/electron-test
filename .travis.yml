@@ -55,4 +55,3 @@ deploy:
   file: dist/*.(exe|dmg)
   on:
     repo: shika7308/electron-test
-    tags: true
