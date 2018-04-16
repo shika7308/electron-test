@@ -23,7 +23,7 @@ before_install:
   fi
 before_script:
 - git lfs pull
-- npm --allow-same-version --no-git-tag-version version 1.0.$(git log --oneline | wc -l)
+- npm --allow-same-version --no-git-tag-version version 1.0.`git log --oneline | wc -l`
 script:
 - |
   if [ "$TRAVIS_OS_NAME" == "linux" ]; then
