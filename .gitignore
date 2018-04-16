@@ -1,0 +1,8 @@
+**/node_modules/
+**/.compiled/
+dist/
+.vs/
+package-lock.json
+.idea/
+
+*.log

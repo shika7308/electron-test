@@ -1,0 +1,59 @@
+{
+  "name": "electron-test",
+  "version": "1.0.1",
+  "description": "test for electron builder.",
+  "main": "src/main.js",
+  "scripts": {
+    "dist-win": "build --win --x64",
+    "dist-mac": "build --mac",
+    "dist-linux": "build --linux",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": "",
+  "license": "-",
+  "dependencies": {
+    "electron-config": "^1.0.0",
+    "electron-log": "^2.2.14",
+    "electron-window-state": "^4.1.1"
+  },
+  "devDependencies": {
+    "electron": "^1.8.4",
+    "electron-builder": "^20.8.1"
+  },
+  "build": {
+    "appId": "test appId",
+    "copyright": "test copyright",
+    "asar": true,
+    "productName": "test productName",
+    "files": [
+      "src/**/*"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ],
+      "artifactName": "${name}-installer-${version}-${os}.${ext}"
+    },
+    "mac": {
+      "artifactName": "${name}-installer-${version}-${os}.${ext}"
+    },
+    "win": {
+    },
+    "nsis": {
+      "artifactName": "${name}-installer-${version}-${os}.${ext}"
+    },
+    "linux": {
+      "artifactName": "${name}-installer-${version}-${os}.${ext}"
+    }
+  }
+}

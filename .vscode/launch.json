@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/src/index.js",
+            "sourceMaps": true,
+            "outFiles": ["${workspaceRoot}/.compiled/**/*.js"],
+            "preLaunchTask": "compile",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "runtimeArgs": [
+                "--enable-logging",
+                "-r", "babel-register",
+                "-r", "babel-polyfill"
+            ],
+            "args": [
+                "."
+            ],
+            "env": {
+                "APP_DATADIR": "${workspaceRoot}",
+                "IS_BEING_DEBUGGED": "yes"
+            },
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "console": "integratedTerminal"
+        }
+    ]
+}
