@@ -39,8 +39,8 @@ script:
   else
     npm run dist-mac
   fi
-before_cache:
-- rm -rf $HOME/.cache/electron-builder/wine
+# before_cache:
+# - rm -rf $HOME/.cache/electron-builder/wine
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
@@ -49,8 +49,10 @@ before_deploy:
 - git tag $APP_VERSION
 deploy:
   provider: releases
+  skip_cleanup: true
   api_key:
     secure: BnGBLy4uvbiWmjbO1mbm8QSDH7z8GJ+HoDwtZn2V9dvH8LUpAJDtyYisx234khQjy5AL6l80tC3Hlf9h3Am6I0MCovBrR7rmrPmuHVyeE64qGzqCiN5lDxdsvLfrqOuaZghdGBQTBZ3eIgBoGl+PErWIay4YY8lC7b9AcDwW3Tvc6GihlwfPyknhBDJecWaI4CLP0pCMOG40U6K/XPcV/PLQwupQi657GQtcMH/IM9i4WASg9cMPgO5u9LnGS4cVO8NhAz9Wp0+QOO81OnYn4X1lgDnGPRNVlTPkWWVNqHFlL1ElCPJjoII7dtQaJKaOXybh70l9uNecRly/1ot6Po2QrP1DythBwtwXbUaysU+BNcAiy6MOwQuV3jD9Qt8kmADKIvERK2B/5VNsEWurD1KDit9myunFbzRdeDDyqfmJ4ArN9zrPbBtxGgtDmQo0deYWX/UjBqwmNfO1GLoSdvil1fGAx9QK39PwxUaEbcJ9WKJke37jX/1WHdDKJuaNWc/fukjYaZNeE15b/5yc7WtUYwWC11GOvtGNjCF+IwV3lRgZy6vDK2kJ9AgI1OAkIQQ50LP9HXpEZJRwFStcN6S9wVYhwpL5V9yfW6l86DYnTrLxRRUvvk5BrBBRMfP18jvzpotd11r8Hom8yoiBnknEpJlMzBazAsEkFELmQmo=
   file: dist/*.(exe|dmg)
   on:
     repo: shika7308/electron-test
+    tags: true
