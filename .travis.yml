@@ -16,7 +16,8 @@ cache:
   - node_modules
   - "$HOME/.cache/electron"
   - "$HOME/.cache/electron-builder"
-  - electronuserland/builder
+  - electronuserland/builder:wine
+
 before_install:
 - |
   if [ "$TRAVIS_OS_NAME" == "osx" ]; then
@@ -47,7 +48,10 @@ branches:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
 before_deploy:
 - git tag v$APP_VERSION
+- ls
 - ls dist
+- echo $CSC_LINK
+- echo $CSC_KEY_PASSWORD
 deploy:
   provider: releases
   skip_cleanup: true
