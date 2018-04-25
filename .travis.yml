@@ -7,6 +7,7 @@ matrix:
     env:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - CSC_LINK=$TRAVIS_BUILD_DIR/TempSPC.pvk
   - os: linux
     services: docker
     language: generic
@@ -22,6 +23,7 @@ before_install:
     mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v2.3.1/git-lfs-$([ "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-2.3.1.tar.gz | tar -xz -C /tmp/git-lfs --strip-components 1
     export PATH="/tmp/git-lfs:$PATH"
   fi
+- openssl aes-256-cbc -K $encrypted_4d3450b01f11_key -iv $encrypted_4d3450b01f11_iv -in TempSPC.pvk.enc -out TempSPC.pvk
 before_script:
 - git lfs pull
 - export APP_VERSION=1.0.`git log --oneline | wc -l`
@@ -40,20 +42,19 @@ script:
   else
     npm run dist-mac
   fi
-# before_cache:
-# - rm -rf $HOME/.cache/electron-builder/wine
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
-
 before_deploy:
 - git tag v$APP_VERSION
 - ls dist
-
 deploy:
   provider: releases
   skip_cleanup: true
   api_key:
     secure: BnGBLy4uvbiWmjbO1mbm8QSDH7z8GJ+HoDwtZn2V9dvH8LUpAJDtyYisx234khQjy5AL6l80tC3Hlf9h3Am6I0MCovBrR7rmrPmuHVyeE64qGzqCiN5lDxdsvLfrqOuaZghdGBQTBZ3eIgBoGl+PErWIay4YY8lC7b9AcDwW3Tvc6GihlwfPyknhBDJecWaI4CLP0pCMOG40U6K/XPcV/PLQwupQi657GQtcMH/IM9i4WASg9cMPgO5u9LnGS4cVO8NhAz9Wp0+QOO81OnYn4X1lgDnGPRNVlTPkWWVNqHFlL1ElCPJjoII7dtQaJKaOXybh70l9uNecRly/1ot6Po2QrP1DythBwtwXbUaysU+BNcAiy6MOwQuV3jD9Qt8kmADKIvERK2B/5VNsEWurD1KDit9myunFbzRdeDDyqfmJ4ArN9zrPbBtxGgtDmQo0deYWX/UjBqwmNfO1GLoSdvil1fGAx9QK39PwxUaEbcJ9WKJke37jX/1WHdDKJuaNWc/fukjYaZNeE15b/5yc7WtUYwWC11GOvtGNjCF+IwV3lRgZy6vDK2kJ9AgI1OAkIQQ50LP9HXpEZJRwFStcN6S9wVYhwpL5V9yfW6l86DYnTrLxRRUvvk5BrBBRMfP18jvzpotd11r8Hom8yoiBnknEpJlMzBazAsEkFELmQmo=
   file_glob: true
-  file: 'dist/*.{exe,dmg}'
+  file: dist/*.{exe,dmg}
+env:
+  global:
+    secure: tS6L7J+Rr01atE+TFEDJpmXvWCxgOnKXgsyM11KvzCYFI6c3adKzIlfS2l2jHhK270bTsvcsFpVN77KExs/IKPejQ+oVTp2WRl7yHYrD9T1RqV74vQA2ZtRKs927hnac/UCMVNwAiw15LCgmPWJn6HEdAf/4LwIUGRU95IZlvJdbfFGQr9o1eOMuy/PtSXE+Et1aLDY09uGdnChFV8TTuVRpV7In5/NooE6VZoWCP1y2Qvw0evggFXR/y7MNcjV2B+MiEyxlG9i8ihR5zITWvzylO9EHauFfCXzA0M6gX0nroyOahZn0oIRLsQfJtjlIc9B/oI+9WwLTjNWF4oiAu5K0iOHXSd8C29jrkpgscg/O21EavohNHHRBn+ObhsfvsvQk3j3IhVGh4FIL6/ATY57qR8ym3fXyNtOO1eafVc0LzhjSqyVFEpvJBlAvjCIbJPjL/G+ifBbUU+/XH6zLZu8iyGBBKx9K+m++FM/zDHrAS9eLYb+KNHACytu6VwgxlSEv32x2JWC+mWVyMjRD1c4HO0MD+rkchigqEOlO6rwPkD6aK5NkIr8eRaJIODh5xVaSOHrIhrfI/r6NYfXXEs6G4Ikt/998hl4wTnc81P6KUNnd0ayHYzzv3i6jpDBd9s35mThe1QDqg8Q1kYMKURIzehAZere0ssm9KVe45BY=
