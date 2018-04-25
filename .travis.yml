@@ -47,6 +47,10 @@ branches:
 
 before_deploy:
 - git tag v$APP_VERSION
+- pwd
+- ls
+- ls dist
+
 deploy:
   provider: releases
   skip_cleanup: true
