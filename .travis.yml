@@ -15,6 +15,7 @@ cache:
   - node_modules
   - "$HOME/.cache/electron"
   - "$HOME/.cache/electron-builder"
+  - electronuserland/builder
 before_install:
 - |
   if [ "$TRAVIS_OS_NAME" == "osx" ]; then
@@ -47,9 +48,6 @@ branches:
 
 before_deploy:
 - git tag v$APP_VERSION
-- pwd
-- ls
-- ls dist 
 
 deploy:
   provider: releases
