@@ -12,14 +12,14 @@
   "author": "",
   "license": "-",
   "dependencies": {
-    "electron-config": "^1.0.0",
-    "electron-log": "^2.2.14",
-    "electron-window-state": "^4.1.1"
+    "electron-config": "1.0.0",
+    "electron-log": "2.2.14",
+    "electron-window-state": "4.1.1"
   },
   "devDependencies": {
-    "electron": "^1.8.4",
-    "electron-builder": "^20.8.1",
-    "yarn": "^1.6.0"
+    "electron": "1.8.4",
+    "electron-builder": "20.8.1",
+    "yarn": "1.6.0"
   },
   "build": {
     "appId": "test appId",
