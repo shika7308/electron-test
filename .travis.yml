@@ -13,6 +13,7 @@ cache:
   - node_modules
   - "$HOME/.cache/electron"
   - "$HOME/.cache/electron-builder"
+  - "$HOME/docker"
 before_install:
 - openssl aes-256-cbc -K $encrypted_4d3450b01f11_key -iv $encrypted_4d3450b01f11_iv
   -in TempSPC.pfx.enc -out $TRAVIS_BUILD_DIR/TempSPC.pfx
@@ -23,10 +24,16 @@ before_install:
   fi
 - openssl aes-256-cbc -K $encrypted_4d3450b01f11_key -iv $encrypted_4d3450b01f11_iv
   -in TempSPC.pvk.enc -out $TRAVIS_BUILD_DIR/TempSPC.pvk
+- |
+  BUILD_IMAGE_PATH="$HOME/docker/builder.tar"
+  if [ -e BUILD_IMAGE_PATH ]; then
+    docker load -i BUILD_IMAGE_PATH
+  else
+    docker pull electronuserland/builder:wine
+    docker save electronuserland/builder:wine -o BUILD_IMAGE_PATH
+  fi
+
 before_script:
-- ls $TRAVIS_BUILD_DIR
-- echo $CSC_LINK
-- ls $CSC_LINK
 - git lfs pull
 - export APP_VERSION=1.0.`git log --oneline | wc -l`
 - echo $APP_VERSION
