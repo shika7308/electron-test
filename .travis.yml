@@ -10,12 +10,12 @@ matrix:
   - os: linux
     services: docker
     language: generic
+sudo: false
 cache:
   directories:
   - node_modules
   - "$HOME/.cache/electron"
   - "$HOME/.cache/electron-builder"
-  - "$HOME/.cache/electronuserland/builder"
 before_install:
 - openssl aes-256-cbc -K $encrypted_4d3450b01f11_key -iv $encrypted_4d3450b01f11_iv
   -in TempSPC.pfx.enc -out $TRAVIS_BUILD_DIR/TempSPC.pfx
