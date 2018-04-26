@@ -48,7 +48,9 @@
     "mac": {
       "artifactName": "${name}-installer-${version}-${os}.${ext}"
     },
-    "win": {},
+    "win": {
+      "certificatePassword": "test"
+    },
     "nsis": {
       "artifactName": "${name}-installer-${version}-${os}.${ext}"
     },
