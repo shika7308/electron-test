@@ -42,7 +42,7 @@ script:
       -v ${PWD}:/project \
       -v ~/.cache/electron:/root/.cache/electron \
       -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-      ~/.cache/electronuserland/builder:wine \
+      electronuserland/builder:wine \
       /bin/bash -c "npm run dist-win"
   else
     npm run dist-mac
