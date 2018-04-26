@@ -49,10 +49,10 @@
       "artifactName": "${name}-installer-${version}-${os}.${ext}"
     },
     "win": {
+      "certificateFile": "TempSPC.pfx",
       "certificatePassword": "test"
     },
     "nsis": {
-      "certificateFile": "TempSPC.pfx",
       "artifactName": "${name}-installer-${version}-${os}.${ext}"
     },
     "linux": {
