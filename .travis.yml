@@ -1,12 +1,12 @@
 matrix:
   include:
-  # - os: osx
-  #   osx_image: xcode9.2
-  #   language: node_js
-  #   node_js: '9'
-  - os: linux
-    services: docker
-    language: generic
+  - os: osx
+    osx_image: xcode9.2
+    language: node_js
+    node_js: '9'
+  # - os: linux
+  #   services: docker
+  #   language: generic
 sudo: false
 cache:
   directories:
@@ -14,13 +14,15 @@ cache:
   - "$HOME/.cache/electron"
   - "$HOME/.cache/electron-builder"
 before_install:
-- openssl aes-256-cbc -K $encrypted_036b6519a3f0_key -iv $encrypted_036b6519a3f0_iv -in TempSPC.pfx.enc -out TempSPC.pfx -d
-- |
-  if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v2.3.1/git-lfs-$([ "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-2.3.1.tar.gz | tar -xz -C /tmp/git-lfs --strip-components 1
-    export PATH="/tmp/git-lfs:$PATH"
-  fi
-- docker pull electronuserland/builder:wine
+  - openssl aes-256-cbc -K $encrypted_036b6519a3f0_key -iv $encrypted_036b6519a3f0_iv -in TempSPC.pfx.enc -out TempSPC.pfx -d
+  - openssl aes-256-cbc -K $encrypted_ee46f54e7cdc_key -iv $encrypted_ee46f54e7cdc_iv -in Certificates.p12.enc -out Certificates.p12 -d
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      lfs-name=https://github.com/github/git-lfs/releases/download/v2.3.1/git-lfs-$([ "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-2.3.1.tar.gz
+      mkdir -p /tmp/git-lfs && curl -L "${lfs-name}" | tar -xz -C /tmp/git-lfs --strip-components 1
+      export PATH="/tmp/git-lfs:$PATH"
+    fi
+  - docker pull electronuserland/builder:wine
 
 before_script:
 - git lfs pull
@@ -45,11 +47,9 @@ branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
 before_deploy:
-- git tag v$APP_VERSION
-- ls
-- ls dist
-- echo $CSC_LINK
-- echo $CSC_KEY_PASSWORD
+  - git tag v$APP_VERSION
+  - ls
+  - ls dist
 deploy:
   provider: releases
   skip_cleanup: true
@@ -61,6 +61,8 @@ env:
   global:
   # - ELECTRON_CACHE=$HOME/.cache/electron
   # - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-  - _CSC_LINK=TempSPC.pfx
+  # - _CSC_LINK=TempSPC.pfx
+  - CSC_LINK=Certificates.p12
   # - CSC_KEY_PASSWORD=test
+  - secure: "PATIGN4vVIBGyrR59PZBPreV95EOc8rpsFbQxwz61avgpbW+bNZBrQ8MUZS3Wv7psFrRR4r0whOWiglQ8rercTE1UPfW4+hrxpaLVJjnjbrre8uHiCU7dgDaa1cXYZSGM0BDy2BJ4nQZg9QYZL6m4QI4btOTMWh0H9vlMKaDl/3y3w8WGn2Y9mvoruNZBdX0EnBaRNnKSEw3/TP9DOt/cwUuFG3tTxHV2hgK6m3/NC6nJDxEszd0Faf6YftyiVHUWvOK6h5wT5N6jpGM5BLPvb217MwmH8sWk3nQCF3aX6y6Frxarb6hsS/cHcRzhoB04CNu0a4TFDvX9pOTEElY4OuGGU0r9gF/zelIjFEkBFdap4/33IBqYELXNe8MCawb0eFbao0VZf5jWIFuciJVVJIJf+EtiSvAruxMU3rD5duJxBDpdg0oLy7n0X/6iKTjU/Btj2KPmOgv/vziyc7/iBNO+aX0L3CBERaImXwumsVXsf9sx49M+yFFvYwBLQyizraLZa2vVGoviPpHSZ3u3t758ACUwJaBbKMNaleeyTz9ybgf/uvmdG8F5hSW8DG99mNIb2pxQFC+hGqLkfAXYyVkKcrFMyM2iGViPuWaD5/+75GvSjbo9OlApxfSncCqDIFqrRGeE8cIBqN7LoIMMopQubyYBtbkueCSSX2Hqjc="
   # - secure: tS6L7J+Rr01atE+TFEDJpmXvWCxgOnKXgsyM11KvzCYFI6c3adKzIlfS2l2jHhK270bTsvcsFpVN77KExs/IKPejQ+oVTp2WRl7yHYrD9T1RqV74vQA2ZtRKs927hnac/UCMVNwAiw15LCgmPWJn6HEdAf/4LwIUGRU95IZlvJdbfFGQr9o1eOMuy/PtSXE+Et1aLDY09uGdnChFV8TTuVRpV7In5/NooE6VZoWCP1y2Qvw0evggFXR/y7MNcjV2B+MiEyxlG9i8ihR5zITWvzylO9EHauFfCXzA0M6gX0nroyOahZn0oIRLsQfJtjlIc9B/oI+9WwLTjNWF4oiAu5K0iOHXSd8C29jrkpgscg/O21EavohNHHRBn+ObhsfvsvQk3j3IhVGh4FIL6/ATY57qR8ym3fXyNtOO1eafVc0LzhjSqyVFEpvJBlAvjCIbJPjL/G+ifBbUU+/XH6zLZu8iyGBBKx9K+m++FM/zDHrAS9eLYb+KNHACytu6VwgxlSEv32x2JWC+mWVyMjRD1c4HO0MD+rkchigqEOlO6rwPkD6aK5NkIr8eRaJIODh5xVaSOHrIhrfI/r6NYfXXEs6G4Ikt/998hl4wTnc81P6KUNnd0ayHYzzv3i6jpDBd9s35mThe1QDqg8Q1kYMKURIzehAZere0ssm9KVe45BY=
