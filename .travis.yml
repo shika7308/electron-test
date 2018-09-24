@@ -4,9 +4,9 @@ matrix:
     osx_image: xcode9.2
     language: node_js
     node_js: '9'
-  - os: linux
-    services: docker
-    language: generic
+  # - os: linux
+  #   services: docker
+  #   language: generic
 
 sudo: false
 cache:
@@ -16,6 +16,7 @@ cache:
   - "$HOME/.cache/electron-builder"
 
 before_install:
+  - git fetch
   - openssl aes-256-cbc -K $encrypted_036b6519a3f0_key -iv $encrypted_036b6519a3f0_iv -in TempSPC.pfx.enc -out TempSPC.pfx -d
   - openssl aes-256-cbc -K $encrypted_ee46f54e7cdc_key -iv $encrypted_ee46f54e7cdc_iv -in Certificates.p12.enc -out Certificates.p12 -d
   - |
@@ -70,8 +71,8 @@ deploy:
   file: dist/*.{exe,dmg}
 env:
   global:
-  # - ELECTRON_CACHE=$HOME/.cache/electron
-  # - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+  - ELECTRON_CACHE=$HOME/.cache/electron
+  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
   # - _CSC_LINK=TempSPC.pfx
   - CSC_LINK=Certificates.p12
   - secure: "nw0OF04+rzAK1wHTi+l6w8nu4XgVxW8GmQ5CubgnSUWPlZtoC9EJJnz80M3j4giBqTT5c/QV7cZXhlOM1JHRFiOrLw/XWgConuTM74zOOKfhbdWToEJ/rEIk6iFTQTRlVAhwXXwoGw18xN6yTjzOJZa1cQCsqImNB5tn4jph7oEvAC6nd4NjBtq7tbSPHzQWqIBi1tZ9h6NUHOmT/vhvHf/5o7F3o0TFoyU+1BYtrSy+Q6c9wAnviavYgyJpWsNd5b0KE2IAGydCDtfEHVF9VXR8ss5Hm+HcEYAN6GQ9Ljvy+3PT3y6ZhjQe/DV4fX49Uzl9gvdmKw5cvyamdDTr8KYkOvX0URHo3Cl92CFi9E5MCl03LCpmnyeyTNmWvoc1VItDHvI7SnRQKbTrT+k/2D9ka1ogPZzTvdA1qOm2huc1bSBW8V9UxTlxD8OYU6crY1ZAOqKDeocLdwE/5DxEg/8HF8UvQ1VQqkMQwFFAda2d9EDh020yf51ImBgwmqXqf1ipfEiXLPccBfhnZoeuXrDJk2dQWZpWbWnuqB8u4oFwoy8IZpTyHrJQrBg6Xf+HmdIcBK6LVo5Nr5J2Ie5BfL6UyvA89mjFM0IJ6qJCpx1uCfFQB8a2hFOYeqm1DGDeANjis5XzOwbbg9WyQB2GoRdh2SBA+RtTvwJhPNsvYHI="
