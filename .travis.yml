@@ -16,7 +16,7 @@ cache:
   - "$HOME/.cache/electron-builder"
 
 before_install:
-  - git fetch
+  - git fetch --unshallow
   - openssl aes-256-cbc -K $encrypted_036b6519a3f0_key -iv $encrypted_036b6519a3f0_iv -in TempSPC.pfx.enc -out TempSPC.pfx -d
   - openssl aes-256-cbc -K $encrypted_ee46f54e7cdc_key -iv $encrypted_ee46f54e7cdc_iv -in Certificates.p12.enc -out Certificates.p12 -d
   - |
